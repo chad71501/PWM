@@ -15,6 +15,7 @@
 #include "Src/BIOS/SPI_set.h"
 #include "Src/BIOS/pwm.h"
 #include "Src/BIOS/uartdevice.h"
+#include "Src/Motor_control/Overflow.h"
 
 union DATA {
     uint8_t readData[2];
@@ -25,7 +26,7 @@ int main() {
     uart_init();    // terminal picture
     pwm_init();     // about 675KHz
     SPI_MasterInit();
-
+    Overflower_lay(&Overflower_str);
     uint8_t countstep = 0;                // 200 step 等於 1圈
     uint16_t lapcount = 0;                // 圈數
     uint8_t Command[2] = {0xFF, 0x3F};    // encoder reg mode
@@ -56,7 +57,12 @@ int main() {
         // = SPI_transmit_byte(0);    // send Command  MSB 8bit
         // = SPI_transmit_byte(0);    // send Command LSB 8bit
         // SS_HIGH;
+
         encoder.data= encoder.data &0x3FFF;
-        printf("Data  %d\n", encoder.data);
+        Overflower_str.Count = encoder.data;
+        Overflower_step(&Overflower_str);
+        printf("Data  %d\n", *Overflower_str.Count_p);
+        printf("Data  %ld\n", *Overflower_str.AccuOut_p);
+
     }
 }
