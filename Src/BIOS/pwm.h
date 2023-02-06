@@ -14,7 +14,7 @@
 
 
 #define Steppin PIN7    // OCR2 footpin
-#define Dirpin PIN0     // Direction footpin
+#define Dirpin PIN0     // DDRB Direction footpin
 #define HIGH 1
 #define LOW 0
 #define rotate_cw  PORTB |= (HIGH << Dirpin)

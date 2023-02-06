@@ -29,38 +29,34 @@ int main() {
     uint8_t countstep = 0;                // 200 step 等於 1圈
     uint16_t lapcount = 0;                // 圈數
     uint8_t Command[2] = {0xFF, 0x3F};    // encoder reg mode
-
+    
     union DATA encoder;
     
     while (1) {
-        rotate_cw;
-        if (countstep == 200) {
-            countstep = 0;
-            lapcount++;
-        }
-        if (TCNT2 == 254) {
-            countstep++;
-        }
-        if (lapcount == 100) {
-            TCCR2 &= ~(1 << CS20);
-            DDRB |= (1 << Steppin) | (1 << Dirpin);
-        }
+        rotate_acw;
+        // if (countstep == 200) {
+        //     countstep = 0;
+        //     lapcount++;
+        // }
+        // if (TCNT2 == 254) {
+        //     countstep++;
+        // }
+        // if (lapcount == 100) {
+        //     TCCR2 &= ~(1 << CS20);
+        //     DDRB |= (1 << Steppin) | (1 << Dirpin);
+        // }
 
         SS_LOW;    // SPI_set.h define
-        // printf("123\n");
-        SPI_transmit_byte(Command[1]);    // send Command LSB 8bit
-        SPI_transmit_byte(Command[0]);    // send Command  MSB 8bit
+        encoder.readData[1] = SPI_transmit_byte(Command[1]);    // send Command LSB 8bit
+        encoder.readData[0] = SPI_transmit_byte(Command[0]);    // send Command  MSB 8bit
         SS_HIGH;
-        _delay_us(100);
-        SS_LOW;    // SPI_set.h define
-        // printf("123\n");
-        encoder.readData[1]= SPI_transmit_byte(0);    // send Command  MSB 8bit
-        encoder.readData[0]= SPI_transmit_byte(0);    // send Command LSB 8bit
-        SS_HIGH;
+        //_delay_us(10);
+        // SS_LOW;    // SPI_set.h define
 
-        //Data = (readData[1] << 7) | readData[0];
+        // = SPI_transmit_byte(0);    // send Command  MSB 8bit
+        // = SPI_transmit_byte(0);    // send Command LSB 8bit
+        // SS_HIGH;
+        encoder.data= encoder.data &0x3FFF;
         printf("Data  %d\n", encoder.data);
-
-        _delay_us(10);
     }
 }
