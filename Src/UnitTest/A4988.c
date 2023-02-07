@@ -17,10 +17,7 @@
 #include "Src/BIOS/uartdevice.h"
 #include "Src/Motor_control/Overflow.h"
 
-union DATA {
-    uint8_t readData[2];
-    uint16_t data;
-};
+
 
 int main() {
     uart_init();    // terminal picture
@@ -29,12 +26,10 @@ int main() {
     Overflower_lay(&Overflower_str);
     uint8_t countstep = 0;                // 200 step 等於 1圈
     uint16_t lapcount = 0;                // 圈數
-    uint8_t Command[2] = {0xFF, 0x3F};    // encoder reg mode
     
-    union DATA encoder;
     
     while (1) {
-        rotate_acw;
+        rotate_cw;
         // if (countstep == 200) {
         //     countstep = 0;
         //     lapcount++;
@@ -47,10 +42,7 @@ int main() {
         //     DDRB |= (1 << Steppin) | (1 << Dirpin);
         // }
 
-        SS_LOW;    // SPI_set.h define
-        encoder.readData[1] = SPI_transmit_byte(Command[1]);    // send Command LSB 8bit
-        encoder.readData[0] = SPI_transmit_byte(Command[0]);    // send Command  MSB 8bit
-        SS_HIGH;
+
         //_delay_us(10);
         // SS_LOW;    // SPI_set.h define
 
@@ -58,11 +50,10 @@ int main() {
         // = SPI_transmit_byte(0);    // send Command LSB 8bit
         // SS_HIGH;
 
-        encoder.data= encoder.data &0x3FFF;
-        Overflower_str.Count = encoder.data;
+
         Overflower_step(&Overflower_str);
-        printf("Data  %d\n", *Overflower_str.Count_p);
-        printf("Data  %ld\n", *Overflower_str.AccuOut_p);
+        // printf("Count  %d\n", *Overflower_str.Count_p);
+        // printf("AccuOut  %ld\n", *Overflower_str.AccuOut_p);
 
     }
 }

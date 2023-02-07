@@ -8,7 +8,7 @@ Compensator.c
 
 #define PI acos(-1)
 /* copensator */
-#define Comp_FULL_SCALE 1 << 14
+#define Comp_FULL_SCALE (1 << 14)
 #define Comp_ONE_PERIOD 1 << 9
 #define Comp_CHANNEL 4
 #define Comp_DIVISION_SHIFT 18
