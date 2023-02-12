@@ -11,17 +11,7 @@ Overflower.c
 #include <avr/io.h>
 #include <stdio.h>
 #include "Src/BIOS/SPI_set.h"
-
-union DATA {
-    uint8_t readData[2];
-    uint16_t data;
-};
-
-union DATA encoder;
-uint8_t Command[2] = {0xFF, 0x3F};    // encoder reg mode
-
-
-int flag =1;
+#include "AS5X47.h"
 
 OverflowerStr_t Overflower_str = {.FullScale = FULL_SCALE,
                                   .HalfScale = HALF_SCALE,
@@ -40,12 +30,12 @@ void Overflower_step(void* void_p) {
     OverflowerStr_t* Str_p = (OverflowerStr_t*)void_p;
     Str_p->Count0 = Str_p->Count;    // update old count
     
-    SS_LOW;    // SPI_set.h define
-    encoder.readData[1] = SPI_transmit_byte(Command[1]);    // send Command LSB 8bit
-    encoder.readData[0] = SPI_transmit_byte(Command[0]);    // send Command  MSB 8bit
-    SS_HIGH;
-    encoder.data= encoder.data & 0x3FFF;
-    Overflower_str.Count = encoder.data;
+    // SS_LOW;    // SPI_set.h define
+    // encoder.readData[1] = SPI_transmit_byte(Command[1]);    // send Command LSB 8bit
+    // encoder.readData[0] = SPI_transmit_byte(Command[0]);    // send Command  MSB 8bit
+    // SS_HIGH;
+    // encoder.data= encoder.data & 0x3FFF;
+    // Overflower_str.Count = encoder.data;
     
     DiffCount = Str_p->Count - Str_p->Count0;
     Str_p->AccuOut = Str_p->AccuOut + DiffCount;

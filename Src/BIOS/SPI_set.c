@@ -11,7 +11,7 @@ void SPI_MasterInit(void) {
     DDRB &= ~(1 << PIN_MISO);    // set pin MISO as input
     SPCR = (1 << SPE) | (1 << MSTR) | (1 << SPR1) |
            (1 << CPHA);    // notice M&S's CPOL and CPHA  need to equal
-    // sei();
+    SS_HIGH;
 }
 
 void SPI_SlaveInit(void) {
@@ -28,6 +28,5 @@ uint8_t SPI_transmit_byte(uint8_t data) {
     SPDR = data;    // start transmission
     while (!(SPSR & (1 << SPIF)))
         ;    // wait for transmission complet
-
     return SPDR;    // return data from Slave/Receiver
 }
