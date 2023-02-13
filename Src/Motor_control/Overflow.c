@@ -8,10 +8,12 @@ Overflower.c
 // #include "../BIOS2/M128Bios.h"
 //  #include "..\EXECSERVER\M128Executor.h"
 #include "Overflow.h"
+
 #include <avr/io.h>
 #include <stdio.h>
-#include "Src/BIOS/SPI_set.h"
+
 #include "AS5X47.h"
+#include "Src/BIOS/SPI_set.h"
 
 OverflowerStr_t Overflower_str = {.FullScale = FULL_SCALE,
                                   .HalfScale = HALF_SCALE,
@@ -19,7 +21,7 @@ OverflowerStr_t Overflower_str = {.FullScale = FULL_SCALE,
                                   .Bytes = 2,
                                   .Count = 0,
                                   .AccuOut = 0};
-
+float Encoder_Angle;
 uint16_t DiffCount = 0;
 void Overflower_lay(OverflowerStr_t* Str_p) {
     Str_p->Count_p = &Str_p->Count;
@@ -36,21 +38,21 @@ void Overflower_step(void* void_p) {
     // SS_HIGH;
     // encoder.data= encoder.data & 0x3FFF;
     // Overflower_str.Count = encoder.data;
-    
+    Str_p->Count =readEncoder();
+    Encoder_Angle = Str_p->Count/16384.*360.;
+    // printf("Encoder_Angle %.3f\n", Encoder_Angle);
+    printf("Encoder_count %d\n", Str_p->Count);
+
     DiffCount = Str_p->Count - Str_p->Count0;
     Str_p->AccuOut = Str_p->AccuOut + DiffCount;
 
-    //printf("DiffCount %d\n",DiffCount);
     if (DiffCount > Str_p->HalfScale && Str_p->AccuOut > Str_p->FullScale) {
         Str_p->AccuOut = Str_p->AccuOut - Str_p->FullScale;
         printf("acw\n");
     }
-    // printf("(Str_p->HalfScale) %d\n",(-Str_p->HalfScale));
-    // printf("(Str_p->FullScale) %d\n",(Str_p->FullScale));
 
     if (DiffCount < (-Str_p->HalfScale)) {
         Str_p->AccuOut = Str_p->AccuOut + Str_p->FullScale;
         printf("cw\n");
     }
-
 }

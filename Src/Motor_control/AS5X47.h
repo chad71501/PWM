@@ -201,6 +201,7 @@ typedef union {
 ReadDataFrame readRegister(uint16_t registerAddress);
 void writeRegister(uint16_t registerAddress, uint16_t registerValue);
 float readAngle();
+uint16_t readEncoder();
 void writeSettings1(Settings1 values);
 void writeSettings2(Settings2 values);
 void writeZeroPosition(Zposm zposm, Zposl zposl);

@@ -29,7 +29,7 @@
 */
 
 #include "AS5X47.h"
-
+#include <stdio.h>
 ReadDataFrame readRegister(uint16_t registerAddress) {
 	CommandFrame command;
 	command.values.rw = READ;
@@ -62,10 +62,18 @@ void writeRegister(uint16_t registerAddress, uint16_t registerValue) {
 }
 
 float readAngle() {
-	ReadDataFrame readDataFrame = readRegister(ANGLE_REG);
+	ReadDataFrame readDataFrame = readRegister(ANGLECOM_REG);
 	Angle angle;
 	angle.raw = readDataFrame.values.data;
 	return angle.values.cordicang/16384.*360.;
+}
+
+uint16_t readEncoder() {
+	ReadDataFrame readDataFrame = readRegister(ANGLECOM_REG);
+	Angle angle;
+	angle.raw = readDataFrame.values.data;
+	printf("receivedFrame.ef %d\n",readDataFrame.values.ef);
+	return angle.values.cordicang;
 }
 
 void writeSettings1(Settings1 values) {
