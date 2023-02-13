@@ -19,10 +19,13 @@ void RWFirFilter_lay(RWFirFilterStr_t* Str_p, uint32_t* Buffer_p) {
 
 uint8_t RWFirFilter_step(void* void_p) {
     RWFirFilterStr_t* Str_p = (RWFirFilterStr_t*)void_p;
+    printf("MTCountAcc %ld\tMTCountIn_p %d\tBuffer_p[%d] %ld \n", Str_p->MTCountAcc,
+           *Str_p->MTCountIn_p, Str_p->Index,Str_p->Buffer_p[Str_p->Index]);
     Str_p->MTCountAcc = Str_p->MTCountAcc + *Str_p->MTCountIn_p - Str_p->Buffer_p[Str_p->Index];
-    Str_p->Buffer_p[Str_p->Index] = *Str_p->MTCountIn_p;   //Encoder 數值輸入
+    Str_p->Buffer_p[Str_p->Index] = *Str_p->MTCountIn_p;    // Encoder 數值輸入
     Str_p->Index++;
     if (Str_p->Index == Str_p->Tap) Str_p->Index = 0;
-    Str_p->MTCountOut = Str_p->MTCountAcc >> Str_p->DiviShift;  // 可以+4，來做4捨5入，這裡是做除法，將總數平均
+    Str_p->MTCountOut =
+        Str_p->MTCountAcc >> Str_p->DiviShift;    // 可以+4，來做4捨5入，這裡是做除法，將總數平均
     return 0;
 }

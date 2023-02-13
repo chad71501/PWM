@@ -13,10 +13,10 @@
 #include <stdlib.h>
 
 #include "SPI_set.h"
-#include "pwm.h"
-#include "Src/BIOS/uartdevice.h"
 #include "Overflow.h"
-#include "Src/Motor_control/RWFirFilter.h"
+#include "pwm.h"
+#include "uartdevice.h"
+#include "RWFirFilter.h"
 
 
 
@@ -25,7 +25,7 @@ int main() {
     pwm_init();     // about 675KHz
     SPI_MasterInit();
     Overflower_lay(&Overflower_str);
-    RWFirFilter_lay(&RWFirFilter_str, RWFirFilter_Buffer_p);
+    RWFirFilter_LAY();
     uint8_t countstep = 0;                // 200 step 等於 1圈
     uint16_t lapcount = 0;                // 圈數
     
@@ -43,17 +43,11 @@ int main() {
         //     DDRB |= (1 << Steppin) | (1 << Dirpin);
         // }
 
-
-        //_delay_us(10);
-        // SS_LOW;    // SPI_set.h define
-
-        // = SPI_transmit_byte(0);    // send Command  MSB 8bit
-        // = SPI_transmit_byte(0);    // send Command LSB 8bit
-        // SS_HIGH;
-
+        
         Overflower_step(&Overflower_str);
-        RWFirFilter_LAY;
         RWFirFilter_str.MTCountIn_p = Overflower_str.Count_p;
+        RWFirFilter_step(&RWFirFilter_str);
+        printf("RWFirFilter_str.MTCountOut_p %ld\n",*RWFirFilter_str.MTCountOut_p);
 
         // printf("Count  %d\n", *Overflower_str.Count_p);
         // printf("AccuOut  %ld\n", *Overflower_str.AccuOut_p);

@@ -43,6 +43,8 @@ ReadDataFrame readRegister(uint16_t registerAddress) {
 
 	ReadDataFrame receivedFrame;
 	receivedFrame.raw = readData(command.raw, nopCommand.raw);
+	printf("receivedFrame.ef %d\n",receivedFrame.values.ef);
+
 	return receivedFrame;
 }
 
@@ -72,7 +74,6 @@ uint16_t readEncoder() {
 	ReadDataFrame readDataFrame = readRegister(ANGLECOM_REG);
 	Angle angle;
 	angle.raw = readDataFrame.values.data;
-	printf("receivedFrame.ef %d\n",readDataFrame.values.ef);
 	return angle.values.cordicang;
 }
 

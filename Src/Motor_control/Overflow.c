@@ -48,11 +48,9 @@ void Overflower_step(void* void_p) {
 
     if (DiffCount > Str_p->HalfScale && Str_p->AccuOut > Str_p->FullScale) {
         Str_p->AccuOut = Str_p->AccuOut - Str_p->FullScale;
-        printf("acw\n");
     }
 
     if (DiffCount < (-Str_p->HalfScale)) {
         Str_p->AccuOut = Str_p->AccuOut + Str_p->FullScale;
-        printf("cw\n");
     }
 }

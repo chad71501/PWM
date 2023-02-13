@@ -7,7 +7,7 @@ RWFirFilter.c
   #define RWFirFilter_H_INCLUDED
 #include "CFG_Driver.h"
 #include <stdint.h>
-
+#include <stdio.h>
 typedef struct RWFirFilter {
     uint8_t Tap; //F8.0 Tap of FIR filter
     uint8_t DiviShift; //F8.0 shift to replace division 
