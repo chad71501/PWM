@@ -47,7 +47,7 @@ int main() {
         Overflower_step(&Overflower_str);
         RWFirFilter_str.MTCountIn_p = Overflower_str.Count_p;
         RWFirFilter_step(&RWFirFilter_str);
-        printf("RWFirFilter_str.MTCountOut_p %ld\n",*RWFirFilter_str.MTCountOut_p);
+        //printf("RWFirFilter_str.MTCountOut_p %ld\n",*RWFirFilter_str.MTCountOut_p);
 
         // printf("Count  %d\n", *Overflower_str.Count_p);
         // printf("AccuOut  %ld\n", *Overflower_str.AccuOut_p);
