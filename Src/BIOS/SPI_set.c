@@ -3,6 +3,42 @@
 #include <stdio.h>
 #define TEST printf("123\n");
 
+void SPIDecoder(uint8_t selectnum){
+    DDRF |= 0x0F;
+    switch (selectnum)
+    {
+    case 0:
+        PORTF |= (0 << PIN0) | (0 << PIN1) | (0 << PIN2);
+    case 1: /* constant-expression */:
+        PORTF |= (1 << PIN0) | (1 << PIN1) | (1 << PIN2);
+        break;
+    case 2:
+        PORTF |= (1 << PIN0) | (1 << PIN1) | (1 << PIN2);
+        break;
+    case 3:
+        PORTF |= (1 << PIN0) | (1 << PIN1) | (1 << PIN2);
+        break;
+    case 4:
+        PORTF |= (1 << PIN0) | (1 << PIN1) | (1 << PIN2);
+        break;
+    case 5:
+        PORTF |= (1 << PIN0) | (1 << PIN1) | (1 << PIN2);
+        break;
+    case 6:
+        PORTF |= (1 << PIN0) | (1 << PIN1) | (1 << PIN2);
+        break;
+    case 7:
+        PORTF |= (1 << PIN0) | (1 << PIN1) | (1 << PIN2);
+        break;
+    default:
+        break;
+    }
+    
+
+
+}
+
+
 void SPI_MasterInit(void) {
     DDRB |= (1 << PIN_SCK) | (1 << PIN_MOSI) | (1 << PB0);    // set pin SCK, MOSI, SS as output
     DDRD |= (1 << PIN_SS);                                    // SS as output
