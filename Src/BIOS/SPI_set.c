@@ -3,32 +3,38 @@
 #include <stdio.h>
 #define TEST printf("123\n");
 
+
+#define A PF0
+#define B PF1
+#define C PF2
+#define H  1 // HI
+#define L  0 // LOW
 void SPIDecoder(uint8_t selectnum){
     DDRF |= 0x0F;
     switch (selectnum)
     {
     case 0:
-        PORTF |= (0 << PIN0) | (0 << PIN1) | (0 << PIN2);
-    case 1: /* constant-expression */:
-        PORTF |= (1 << PIN0) | (1 << PIN1) | (1 << PIN2);
+        PORTF |= (L << A) | (L << B) | (L << C);
+    case 1: /* constant-expression */
+        PORTF |= (H << A) | (L << B) | (L << C);
         break;
     case 2:
-        PORTF |= (1 << PIN0) | (1 << PIN1) | (1 << PIN2);
+        PORTF |= (L << A) | (H << B) | (L << C);
         break;
     case 3:
-        PORTF |= (1 << PIN0) | (1 << PIN1) | (1 << PIN2);
+        PORTF |= (H << A) | (H << B) | (L << C);
         break;
     case 4:
-        PORTF |= (1 << PIN0) | (1 << PIN1) | (1 << PIN2);
+        PORTF |= (L << A) | (L << B) | (H << C);
         break;
     case 5:
-        PORTF |= (1 << PIN0) | (1 << PIN1) | (1 << PIN2);
+        PORTF |= (H << A) | (L << B) | (H << C);
         break;
     case 6:
-        PORTF |= (1 << PIN0) | (1 << PIN1) | (1 << PIN2);
+        PORTF |= (L << A) | (H << B) | (H << C);
         break;
     case 7:
-        PORTF |= (1 << PIN0) | (1 << PIN1) | (1 << PIN2);
+        PORTF |= (H << A) | (H << B) | (H << C);
         break;
     default:
         break;

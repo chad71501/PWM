@@ -16,5 +16,6 @@
 void SPI_MasterInit(void) ;
 void SPI_SlaveInit(void);
 uint8_t SPI_transmit_byte(uint8_t);
+void SPIDecoder(uint8_t);
 
 #endif 
