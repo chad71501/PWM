@@ -10,38 +10,8 @@
 #define H  1 // HI
 #define L  0 // LOW
 void SPIDecoder(uint8_t selectnum){
-    DDRF |= 0x0F;
-    switch (selectnum)
-    {
-    case 0:
-        PORTF |= (L << A) | (L << B) | (L << C);
-    case 1: /* constant-expression */
-        PORTF |= (H << A) | (L << B) | (L << C);
-        break;
-    case 2:
-        PORTF |= (L << A) | (H << B) | (L << C);
-        break;
-    case 3:
-        PORTF |= (H << A) | (H << B) | (L << C);
-        break;
-    case 4:
-        PORTF |= (L << A) | (L << B) | (H << C);
-        break;
-    case 5:
-        PORTF |= (H << A) | (L << B) | (H << C);
-        break;
-    case 6:
-        PORTF |= (L << A) | (H << B) | (H << C);
-        break;
-    case 7:
-        PORTF |= (H << A) | (H << B) | (H << C);
-        break;
-    default:
-        break;
-    }
-    
-
-
+    DDRF |= 0x07;
+    PORTF |= selectnum & 0x07;
 }
 
 
