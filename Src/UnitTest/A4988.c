@@ -23,10 +23,10 @@
 int main() {
     uart_init();    // terminal picture
     pwm_init();     // about 675KHz
-    SPIDecoder(2);
-    SPI_MasterInit();
-    Overflower_lay(&Overflower_str);
-    RWFirFilter_LAY();
+    // SPIDecoder(2);
+    // SPI_MasterInit();
+    // Overflower_lay(&Overflower_str);
+    // RWFirFilter_LAY();
     uint8_t countstep = 0;                // 200 step 等於 1圈
     uint16_t lapcount = 0;                // 圈數
     
@@ -45,10 +45,10 @@ int main() {
         // }
 
         
-        Overflower_step(&Overflower_str);
-        RWFirFilter_str.MTCountIn_p = Overflower_str.Count_p;
-        RWFirFilter_step(&RWFirFilter_str);
-        //printf("RWFirFilter_str.MTCountOut_p %ld\n",*RWFirFilter_str.MTCountOut_p);
+        // Overflower_step(&Overflower_str);
+        // RWFirFilter_str.MTCountIn_p = Overflower_str.Count_p;
+        // RWFirFilter_step(&RWFirFilter_str);
+        // printf("RWFirFilter_str.MTCountOut_p %ld\n",*RWFirFilter_str.MTCountOut_p);
 
         // printf("Count  %d\n", *Overflower_str.Count_p);
         // printf("AccuOut  %ld\n", *Overflower_str.AccuOut_p);

@@ -13,7 +13,7 @@
 #define PWM_H
 
 
-#define Steppin PIN7    // OCR2 footpin
+#define Steppin PIN7    // DDRB OCR2 footpin
 #define Dirpin PIN0     // DDRB Direction footpin
 #define HIGH 1
 #define LOW 0
