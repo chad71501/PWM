@@ -7,8 +7,7 @@
 
 
 void pwma_init() {
-    // Set T/C 1 to PWM mode, with TOP value of 255
-    // TCCR1A |= (1 << COM1A0) | (1 << COM1B0) | (1 << COM1A1) | (1 << COM1B1);
+    
     TCCR1A |= (1 << COM1A1) | (1 << WGM11);
     TCCR1B |= (1 << WGM13) | (1 << CS10);
     ICR1 = 254;
@@ -17,11 +16,7 @@ void pwma_init() {
     TCCR3B |= (1 << WGM33) | (1 << CS30);
     ICR3 = 254;
 
-    // TCCR1A |= (1 << COM1A1) | (1 << WGM11);
-    // TCCR1B |= (1 << WGM13) | (1 << CS11);
-    // Set T/C 3 to PWM mode, with TOP value of 255
-    // TCCR3A |= (1 << COM3A1) | (1 << WGM31);
-    //  TCR3 = 255;
+    // 90 degrees out of phase
     TCNT3 = TCNT1 + 126;
     OCR1A = 127;
     OCR3A = 127;
