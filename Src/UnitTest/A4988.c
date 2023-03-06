@@ -22,7 +22,7 @@
 
 int main() {
     uart_init();    // terminal picture
-    pwm_init();     // about 675KHz
+    pwm_A4988_init();     // about 675KHz
     // SPIDecoder(2);
     // SPI_MasterInit();
     // Overflower_lay(&Overflower_str);
