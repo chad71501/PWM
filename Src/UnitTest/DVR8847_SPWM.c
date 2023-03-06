@@ -18,7 +18,7 @@
 
 extern uint16_t sin_sampling[180];
 int count_A = 0;
-int count_B = 45;
+int count_B = 90;
 int main() {
     uart_init();    // terminal picture
     sintable();
