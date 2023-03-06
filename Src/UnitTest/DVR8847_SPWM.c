@@ -30,7 +30,7 @@ int main() {
     while (1) {
 
         if (TIFR & (1<<TOV1)) {
-        printf("OCR1A %d\tOCR1B %d\n",OCR1A,OCR1B);
+        //printf("OCR1A %d\tOCR1B %d\n",OCR1A,OCR1B);
         }
     }
 }

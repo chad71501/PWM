@@ -16,7 +16,9 @@
 #include <stdio.h>
 #include <math.h>
 #include <avr/interrupt.h>
-
+/**
+ * @brief  use A4899 drive control motor
+ */
 #define Steppin PIN7    // DDRB OCR2 footpin
 #define Dirpin PIN0     // DDRB Direction footpin
 #define HIGH 1
@@ -25,12 +27,13 @@
 #define rotate_acw  PORTB |= (LOW << Dirpin)
 
 void pwm_A4988_init();
+/**
+ * @brief  two pwm is phase diff 90 phase , use drive drv8847
+ */
+
 void pwm_phase_init(void);
 
-#define f 1    // frequency
-#define Fs 180
-#define shift_voltage 1    // -1~1 shift 1~2
-#define narrow_down 2      // sine wave 0~1 voltage
+
 
 void sintable();
 void spwm_init();

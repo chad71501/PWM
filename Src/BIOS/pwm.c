@@ -12,10 +12,10 @@
 
 void pwm_A4988_init() {
     DDRB |= (1 << Steppin) | (1 << Dirpin);
-    TCCR2 |= (1 << WGM21) | (1 << WGM20) | (1 << COM21) | (1 << CS21) |
-             (1 << CS20);    // mode select fast pwm & Prescaler 64
-    TCNT2 = 255;
-    OCR2 = TCNT2 / 2;
+    TCCR2 |= (1 << WGM21) | (1 << WGM20) | (1 << COM21) | (1 << CS22)| (1 << CS20);    // mode select fast pwm & Prescaler 64
+    OCR2 = 255/ 2;
+    TIMSK |= (1 << TOIE2) | (1 << OCIE2);
+
 }
 
 void pwm_phase_init() {
@@ -37,13 +37,16 @@ void pwm_phase_init() {
     DDRE |= (1 << PE3);
 }
 
-uint16_t sin_sampling[180];
-
+uint16_t sin_sampling[180];  // sinusoidal simulation
+#define freq 1    // frequency
+#define Fs 180  //Sampling rate
+#define shift_voltage 1    // -1~1 shift 1~2
+#define narrow_down 2      // sine wave 0~1 voltage
 void sintable() {
     int sample = 0;
     float tmp = 0;
     for (sample = 0; sample < 180; sample++) {
-        tmp = ((sin((((2 * M_PI) * f * sample) / Fs))) + shift_voltage) / narrow_down;
+        tmp = ((sin((((2 * M_PI) * freq * sample) / Fs))) + shift_voltage) / narrow_down;
         sin_sampling[sample] = tmp * 1023;
     }
 }

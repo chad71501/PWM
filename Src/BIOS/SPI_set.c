@@ -9,6 +9,8 @@
 #define C PF2
 #define H  1 // HI
 #define L  0 // LOW
+
+// SPISASBUS select
 void SPIDecoder(uint8_t selectnum){
     DDRF |= 0x07;
     PORTF |= selectnum & 0x07;

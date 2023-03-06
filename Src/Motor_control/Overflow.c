@@ -33,8 +33,9 @@ void Overflower_step(void* void_p) {
     Str_p->Count0 = Str_p->Count;    // update old count
     Str_p->Count =readEncoder();
     Encoder_Angle = Str_p->Count/16384.*360.;
-    //printf("Encoder_Angle %.3f\n", Encoder_Angle);
-    printf("Encoder_count %d\n", Str_p->Count);
+
+    // printf("Encoder_Angle %.3f\n", Encoder_Angle);
+    // printf("Encoder_count %d\n", Str_p->Count);
 
     DiffCount = Str_p->Count - Str_p->Count0;       //new count - old count
     Str_p->AccuOut = Str_p->AccuOut + DiffCount;
@@ -46,4 +47,5 @@ void Overflower_step(void* void_p) {
     if (DiffCount < (-Str_p->HalfScale)) {
         Str_p->AccuOut = Str_p->AccuOut + Str_p->FullScale;
     }
+    // return Encoder_Angle;
 }
