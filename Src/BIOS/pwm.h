@@ -28,7 +28,7 @@ void pwm_A4988_init();
 void pwm_phase_init(void);
 
 #define f 1    // frequency
-#define Fs 90
+#define Fs 180
 #define shift_voltage 1    // -1~1 shift 1~2
 #define narrow_down 2      // sine wave 0~1 voltage
 

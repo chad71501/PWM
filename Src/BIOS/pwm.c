@@ -42,18 +42,18 @@ uint16_t sin_sampling[180];
 void sintable() {
     int sample = 0;
     float tmp = 0;
-    for (sample = 0; sample < 90; sample++) {
+    for (sample = 0; sample < 180; sample++) {
         tmp = ((sin((((2 * M_PI) * f * sample) / Fs))) + shift_voltage) / narrow_down;
         sin_sampling[sample] = tmp * 1023;
     }
 }
 
 void spwm_init() {
-    // PWM set
-    TCCR1A |= (1 << WGM10) | (1 << WGM11)|(1 << COM1A0);
-    TCCR1B |= (1 << WGM12) | (1 << CS12);
+    // PWM set Fast PWM Mode
+    TCCR1A |=  (1 << WGM11)|(1 << COM1A1)|(1 << COM1B1);   //COMnx1  需要設置為 Clear OCnA/OCnB/OCnC on compare match
+    TCCR1B |= (1 << WGM12) |(1 << WGM13) | (1 << CS12);
     TIMSK |= (1 << TOIE1);
-    ICR1 = 0xFF;
+    ICR1 = 1024;
 
     // Set output pins as output
     DDRB |= (1 << PB5) | (1 << PB6);
