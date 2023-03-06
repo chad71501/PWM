@@ -37,17 +37,18 @@ void pwm_phase_init() {
     DDRE |= (1 << PE3);
 }
 
-uint16_t sin_sampling[180];  // sinusoidal simulation
+uint16_t sin_sampling[360];  // sinusoidal simulation
 #define freq 1    // frequency
-#define Fs 180  //Sampling rate
+#define Fs 360  //Sampling rate
 #define shift_voltage 1    // -1~1 shift 1~2
 #define narrow_down 2      // sine wave 0~1 voltage
 void sintable() {
     int sample = 0;
     float tmp = 0;
-    for (sample = 0; sample < 180; sample++) {
+    for (sample = 0; sample < 360; sample++) {
         tmp = ((sin((((2 * M_PI) * freq * sample) / Fs))) + shift_voltage) / narrow_down;
         sin_sampling[sample] = tmp * 1023;
+        //printf("%d\n",sin_sampling[sample]);
     }
 }
 

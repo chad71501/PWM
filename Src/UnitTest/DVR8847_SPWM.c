@@ -16,7 +16,7 @@
 #include "pwm.h"
 #include "uartdevice.h"
 
-extern uint16_t sin_sampling[180];
+extern uint16_t sin_sampling[360];
 int count_A = 0;
 int count_B = 90;
 int main() {
