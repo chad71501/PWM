@@ -11,8 +11,9 @@
 #include "pwm.h"
 
 void pwm_A4988_init() {
-    DDRB |= (1 << Steppin) | (1 << Dirpin);
-    TCCR2 |= (1 << WGM21) | (1 << WGM20) | (1 << COM21) | (1 << CS22)| (1 << CS20);    // mode select fast pwm & Prescaler 64
+    DDRB |= (1 << Steppin) ;
+    DDRD |= (1 << Dirpin);
+    TCCR2 |= (1 << WGM21) | (1 << WGM20) | (1 << COM21) | (1 << CS22);    // mode select fast pwm & Prescaler 64
     OCR2 = 255/ 2;
     TIMSK |= (1 << TOIE2) | (1 << OCIE2);
 

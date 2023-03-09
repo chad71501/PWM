@@ -63,7 +63,7 @@ uint16_t readData(uint16_t command, uint16_t nopCommand) {
     SPI_transmit_byte(_command.regarray[0]);    // send Command MSB 8bit
     SPI_transmit_byte(_command.regarray[1]);    // send Command LSB 8bit
 	SS_HIGH;
-	_delay_ms(1);
+	_delay_ms(100);
 	
 	// Send Nop Command while receiving data
 	SS_LOW;
