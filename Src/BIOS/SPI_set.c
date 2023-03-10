@@ -7,8 +7,8 @@
 #define A PF0
 #define B PF1
 #define C PF2
-#define H  1 // HI
-#define L  0 // LOW
+#define HI  1 // HI
+#define LOW  0 // LOW
 
 // SPISASBUS select
 void SPIDecoder(uint8_t selectnum){
@@ -19,10 +19,8 @@ void SPIDecoder(uint8_t selectnum){
 
 void SPI_MasterInit(void) {
     DDRB |= (1 << PIN_SCK) | (1 << PIN_MOSI) | (1 << PB0);    // set pin SCK, MOSI, SS as output
-    DDRD |= (1 << PIN_SS);                                    // SS as output
-    // PORTB |= (1 << PB0);
-    PORTD |= (1 << PIN_SS);
     DDRB &= ~(1 << PIN_MISO);    // set pin MISO as input
+    SS_Set;      // SS as output
     SPCR = (1 << SPE) | (1 << MSTR) | (1 << SPR1) |
            (1 << CPHA);    // notice M&S's CPOL and CPHA  need to equal
     SS_HIGH;

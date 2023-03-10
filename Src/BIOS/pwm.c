@@ -43,12 +43,14 @@ uint16_t sin_sampling[360];  // sinusoidal simulation
 #define Fs 360  //Sampling rate
 #define shift_voltage 1    // -1~1 shift 1~2
 #define narrow_down 2      // sine wave 0~1 voltage
+#define resolution_8bit 254
+#define resolution_16bit 1023
 void sintable() {
     int sample = 0;
     float tmp = 0;
     for (sample = 0; sample < 360; sample++) {
         tmp = ((sin((((2 * M_PI) * freq * sample) / Fs))) + shift_voltage) / narrow_down;
-        sin_sampling[sample] = tmp * 1023;
+        sin_sampling[sample] = tmp * resolution_8bit;
         //printf("%d\n",sin_sampling[sample]);
     }
 }

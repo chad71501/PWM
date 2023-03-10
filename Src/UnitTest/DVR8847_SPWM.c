@@ -17,8 +17,8 @@
 #include "uartdevice.h"
 
 extern uint16_t sin_sampling[360];
-int count_A = 0;
-int count_B = 90;
+uint16_t count_A = 0;
+uint16_t count_B = 90;
 int main() {
     uart_init();    // terminal picture
     sintable();
@@ -35,10 +35,10 @@ int main() {
 ISR(TIMER1_OVF_vect) {
     OCR1A = sin_sampling[count_A];
     OCR1B = sin_sampling[count_B];
-    if (count_A >= 180) {
+    if (count_A >= 360) {
         count_A = 0;
     }
-    if (count_B >= 180) {
+    if (count_B >= 360) {
         count_B = 0;
     }
     count_A++;

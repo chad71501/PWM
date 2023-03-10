@@ -54,22 +54,22 @@ void  writeData(uint16_t command, uint16_t value) {
 }
 
 uint16_t readData(uint16_t command, uint16_t nopCommand) {
-
 	Command _command;
 	Encoder _encoder;
 	_command.reg = command;
+	
 	// Send Read Command
 	SS_LOW;
     SPI_transmit_byte(_command.regarray[0]);    // send Command MSB 8bit
     SPI_transmit_byte(_command.regarray[1]);    // send Command LSB 8bit
 	SS_HIGH;
-	_delay_ms(100);
+	_delay_ms(1);
 	
 	// Send Nop Command while receiving data
 	SS_LOW;
    	_encoder.readarray[1] = SPI_transmit_byte(nopCommand);    // send Command LSB 8bit
     _encoder.readarray[0] = SPI_transmit_byte(nopCommand);    // send Command  MSB 8bit	SS_HIGH;
-	_delay_ms(1);
 	SS_HIGH;
+	_delay_ms(1);
 	return _encoder.data;
 }

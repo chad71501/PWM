@@ -11,7 +11,7 @@
 #include <avr/io.h>
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <util/delay.h>
 #include "AS5X47.h"
 #include "Overflow.h"
 #include "RWFirFilter.h"
@@ -19,30 +19,24 @@
 #include "pwm.h"
 #include "uartdevice.h"
 static float encoder_Angle;
+extern uint16_t sin_sampling[360];
+int count=0;
 int main() {
+    sintable();
     uart_init();         // terminal picture
-    pwm_A4988_init();    // about 675KHz
-    // SPIDecoder(2);
     SPI_MasterInit();
-    Overflower_lay(&Overflower_str);
+    // SPIDecoder(2);
+    // Overflower_lay(&Overflower_str);
     // RWFirFilter_LAY();
     // uint8_t countstep = 0;    // 200 step 等於 1圈
     // uint16_t lapcount = 0;    // 圈數
-    sei();
     rotate_cw;
+    pwm_A4988_init();    // about 675KHz
+    sei();
     while (1) {
-        // if (countstep == 200) {
-        //     countstep = 0;
-        //     lapcount++;
-        // }
-        // if (TCNT2 == 254) {
-        //     countstep++;
-        // }
-        // if (lapcount == 100) {
-        //     TCCR2 &= ~(1 << CS20);
-        //     DDRB |= (1 << Steppin) | (1 << Dirpin);
-        // }
-
+        
+        // readEncoder();
+        // printf("encoder_Angle %f\n",encoder_Angle);
         // Overflower_step(&Overflower_str);
         // printf("Encoder_Angle %f\n", encoder_Angle);
         // RWFirFilter_str.MTCountIn_p = Overflower_str.Count_p;
@@ -53,7 +47,16 @@ int main() {
         // printf("AccuOut  %ld\n", *Overflower_str.AccuOut_p);
     }
 }
+
 ISR(TIMER2_COMP_vect) {
-    // encoder_Angle = readAngle();
-    // printf("encoder_Angle %f\n",encoder_Angle);
+    encoder_Angle = readAngle();
+    printf("encoder_Angle %d\t %d\n",(uint8_t)encoder_Angle,count);
+    // if(!(uint8_t)encoder_Angle){
+    //      DDRB &= ~(1 << Steppin) ;
+    //      cli();
+    // }
+    OCR2=sin_sampling[count++];
+    if(count >=360){
+        count=0;
+    }  
 }

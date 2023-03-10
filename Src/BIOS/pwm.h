@@ -24,7 +24,7 @@
 #define HIGH 1
 #define LOW 0
 #define rotate_cw PORTD |= (HIGH << Dirpin)
-#define rotate_acw PORTD ^= (HIGH << Dirpin)
+#define rotate_acw PORTD &= ~(HIGH << Dirpin)
 
 void pwm_A4988_init();
 /**

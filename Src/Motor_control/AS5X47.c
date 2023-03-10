@@ -35,7 +35,7 @@ ReadDataFrame readRegister(uint16_t registerAddress) {
 	command.values.rw = READ;
 	command.values.commandFrame = registerAddress;
 	command.values.parc = isEven(command.raw);
-	//printf("command.raw %x\t",command.raw);
+	// printf("command.raw %x\n",command.raw);
 	CommandFrame nopCommand;
 	nopCommand.values.rw = READ;
 	nopCommand.values.commandFrame = NOP_REG;
@@ -67,14 +67,14 @@ float readAngle() {
 	ReadDataFrame readDataFrame = readRegister(ANGLECOM_REG);
 	Angle angle;
 	angle.raw = readDataFrame.values.data;
-	return (angle.values.cordicang<<14)*360.;
+	return (angle.values.cordicang/(float)16384.*(float)360.);
 }
 
 uint16_t readEncoder() {
 	ReadDataFrame readDataFrame = readRegister(ANGLECOM_REG);
 	Angle angle;
 	angle.raw = readDataFrame.values.data;
-	//printf("readDataFrame.ef %d\n",readDataFrame.values.ef);
+	printf("readDataFrame.ef %d\n",angle.values.cordicang);
 	return angle.values.cordicang;
 }
 
