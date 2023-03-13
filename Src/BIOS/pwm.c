@@ -9,14 +9,37 @@
  *
  */
 #include "pwm.h"
+void Microstep(uint8_t Num) {
+    DDRD |= (1 << MS1) | (1 << MS2) | (1 << MS3);
+    switch (Num) {
+        case 1:
+            Num = 0;
+            break;
+        case 2:
+            Num = 1;
+            break;
+        case 4:
+            Num = 2;
+            break;
+        case 8:
+            Num = 3;
+            break;
+        case 16:
+            Num = 7;
+            break;
+        default:
+            Num = 0;
+            break;
+    }
+    PORTD |= Num & 0x0C;
+}
 
 void pwm_A4988_init() {
-    DDRB |= (1 << Steppin) ;
-    DDRD |= (1 << Dirpin);
-    TCCR2 |= (1 << WGM21) | (1 << WGM20) | (1 << COM21) | (1 << CS22);    // mode select fast pwm & Prescaler 64
-    OCR2 = 255/ 2;
-    TIMSK |= (1 << TOIE2) | (1 << OCIE2);
-
+    DDRB |= (1 << Step_pin) | (1 << Dir_pin) | (1 << Enable_pin);
+    TCCR2 |= (1 << WGM21) | (1 << WGM20) | (1 << COM21) |
+             (1 << CS22);    // mode select fast pwm & Prescaler 64
+    OCR2 = 255 / 2;
+    TIMSK |= (1 << OCIE2);
 }
 
 void pwm_phase_init() {
@@ -38,27 +61,11 @@ void pwm_phase_init() {
     DDRE |= (1 << PE3);
 }
 
-uint16_t sin_sampling[360];  // sinusoidal simulation
-#define freq 1    // frequency
-#define Fs 360  //Sampling rate
-#define shift_voltage 1    // -1~1 shift 1~2
-#define narrow_down 2      // sine wave 0~1 voltage
-#define resolution_8bit 254
-#define resolution_16bit 1023
-void sintable() {
-    int sample = 0;
-    float tmp = 0;
-    for (sample = 0; sample < 360; sample++) {
-        tmp = ((sin((((2 * M_PI) * freq * sample) / Fs))) + shift_voltage) / narrow_down;
-        sin_sampling[sample] = tmp * resolution_8bit;
-        //printf("%d\n",sin_sampling[sample]);
-    }
-}
-
 void spwm_init() {
     // PWM set Fast PWM Mode
-    TCCR1A |=  (1 << WGM11)|(1 << COM1A1)|(1 << COM1B1);   //COMnx1  需要設置為 Clear OCnA/OCnB/OCnC on compare match
-    TCCR1B |= (1 << WGM12) |(1 << WGM13) | (1 << CS12);
+    TCCR1A |= (1 << WGM11) | (1 << COM1A1) |
+              (1 << COM1B1);    // COMnx1  需要設置為 Clear OCnA/OCnB/OCnC on compare match
+    TCCR1B |= (1 << WGM12) | (1 << WGM13) | (1 << CS12);
     TIMSK |= (1 << TOIE1);
     ICR1 = 1024;
 

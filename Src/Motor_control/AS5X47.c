@@ -67,6 +67,7 @@ float readAngle() {
 	ReadDataFrame readDataFrame = readRegister(ANGLECOM_REG);
 	Angle angle;
 	angle.raw = readDataFrame.values.data;
+	printf("%d\t",angle.values.cordicang);
 	return (angle.values.cordicang/(float)16384.*(float)360.);
 }
 
@@ -74,7 +75,7 @@ uint16_t readEncoder() {
 	ReadDataFrame readDataFrame = readRegister(ANGLECOM_REG);
 	Angle angle;
 	angle.raw = readDataFrame.values.data;
-	printf("readDataFrame.ef %d\n",angle.values.cordicang);
+	// printf("readDataFrame.ef %d\n",angle.values.cordicang);
 	return angle.values.cordicang;
 }
 

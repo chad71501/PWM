@@ -82,3 +82,6 @@ Compensator.c
 #define VELO_LIMIT 1
 #define VELO_EXPON 1
 #define POSI_LIMIT 1024
+
+
+void sintable();

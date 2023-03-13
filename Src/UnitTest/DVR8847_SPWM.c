@@ -15,6 +15,7 @@
 
 #include "pwm.h"
 #include "uartdevice.h"
+#include "Sintable.h"
 
 extern uint16_t sin_sampling[360];
 uint16_t count_A = 0;
