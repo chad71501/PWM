@@ -67,7 +67,7 @@ float readAngle() {
 	ReadDataFrame readDataFrame = readRegister(ANGLECOM_REG);
 	Angle angle;
 	angle.raw = readDataFrame.values.data;
-	printf("%d\t",angle.values.cordicang);
+	// printf("%d\t",angle.values.cordicang);
 	return (angle.values.cordicang/(float)16384.*(float)360.);
 }
 

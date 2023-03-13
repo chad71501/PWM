@@ -31,7 +31,7 @@ void Microstep(uint8_t Num) {
             Num = 0;
             break;
     }
-    PORTD |= Num & 0x0C;
+    PORTD |= (Num & 0x07);
 }
 
 void pwm_A4988_init() {
