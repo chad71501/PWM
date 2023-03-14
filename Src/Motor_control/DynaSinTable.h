@@ -24,7 +24,7 @@ typedef struct DynaSinTable {
     uint16_t N[3];                       // F16.0 dynamic sin table current count vector
     volatile uint32_t* FullCountIn_p;    // F32.0 address of the input count variable
     volatile int16_t* S0_p;              // F2.14 dynamic sin table initial sin value matrix
-    volatile int16_t* TwoCos_p;          // F3.13 dynamic iteration update parameter vector
+    int16_t *TwoCos_p;          // F3.13 dynamic iteration update parameter vector
     volatile int16_t* S_p;               // F2.14 dynamic sin table current sin value matrix
     volatile int16_t* s_p;               // F2.14 sin values of all channels at the input count
 } DynaSinTableStr_t;

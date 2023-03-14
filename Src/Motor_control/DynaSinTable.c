@@ -14,10 +14,7 @@ current S_p[] and N[]
 // #include "..\EXECSERVER\M128Executor.h"
 #include "DynaSinTable.h"
 #include "CFG_Driver.h"
-
-void DynaSinTable_lay(DynaSinTableStr_t* Str_p, int16_t* S0_p, int16_t* S_p, int16_t* TwoCos_p,
-                      int16_t* s_p);
-uint8_t DynaSinTable_step(void* void_p);
+#include <stdio.h>
 
 void DynaSinTable_lay(DynaSinTableStr_t* Str_p, int16_t* S0_p, int16_t* S_p, int16_t* TwoCos_p,
                       int16_t* s_p) {
@@ -29,6 +26,9 @@ void DynaSinTable_lay(DynaSinTableStr_t* Str_p, int16_t* S0_p, int16_t* S_p, int
                Str_p->FullScale;    // calculate initial onecycle count without compensate
     uint16_t PERIOD = Str_p->FullScale / Str_p->CountPerPeri;    // Total periods of one cycle
     uint16_t period = Str_p->n / Str_p->CountPerPeri;    // count is in which period of this cycle
+    for(int i=0;i<4;i++){
+        printf("Str_p->TwoCos_p[i] =%i\n",Str_p->TwoCos_p[i]);
+    }
     if (period < (PERIOD >> 1)) {			// half periods
         for (uint8_t i = 0; i < Str_p->Channel; i++) {
             Str_p->S_p[i * 3 + 0] = Str_p->S0_p[i * 3 + 1];  //iteration is three pooint

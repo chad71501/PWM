@@ -8,6 +8,9 @@ Compensator.c
 // #include "..\EXECSERVER\M128Executor.h"
 #include "Compensator.h"
 
+#include <stdio.h>
+
+#include "math.h"
 int16_t CompSinTable_S0_p[Comp_CHANNEL * 3] = {0};                    // F2.14
 int16_t CompSinTable_S_p[Comp_CHANNEL * 3] = {0};                     // F2.14
 int16_t CompSinTable_s_p[Comp_CHANNEL] = {0};                         // F2.14
@@ -24,30 +27,32 @@ CompensatorStr_t Compensator_str = {
     .A0 = AMP0, .Expon = EXPON, .Channel = Comp_CHANNEL, .Omega = OMEGA};
 
 void Compensator_lay(CompensatorStr_t* Str_p, DynaSinTableStr_t* DynaStr_p, uint16_t* A_p,
-                     int16_t* s_p, double* Theta_p);
-uint8_t Compensator_step(void* void_p);
-
-void Compensator_lay(CompensatorStr_t* Str_p, DynaSinTableStr_t* DynaStr_p, uint16_t* A_p,
                      int16_t* s_p, double* Theta_p) {
-    Str_p->CountDiff_p = &Str_p->CountDiff;    // net output pointer
-    Str_p->Count_p = &Str_p->Count;            // net output pointer
-    Str_p->DynaStr_p = DynaStr_p;              // net internal structure
-    Str_p->A_p = A_p;                          // net internal A array
-    Str_p->s_p = s_p;                          // net s array
-    Str_p->Theta_p = Theta_p;                  // net Theta array
-    // net input of Str_p to input of DynaStr_p
-    DynaStr_p->FullCountIn_p = Str_p->FullCountIn_p;
-    // initialize S0_p[],TwoCos_p[]
-    for (uint8_t c = 0; c < DynaStr_p->Channel; c++) {
-        DynaStr_p->TwoCos_p[c] =
-            (int16_t)((2 ^ 13) * 2 *
-                      cos(c * Str_p->Omega));    // F3.13= (int16_t)(2^13*(double -2~2))
-        for (uint8_t j = 0; j < 3; j++) {
+    Str_p->CountDiff_p = &Str_p->CountDiff;             // net output pointer
+    Str_p->Count_p = &Str_p->Count;                     // net output pointer
+    Str_p->DynaStr_p = DynaStr_p;                       // net internal structure
+    Str_p->A_p = A_p;                                   // net internal A array
+    Str_p->s_p = s_p;                                   // net s array
+    Str_p->Theta_p = Theta_p;                           // net Theta array
+    DynaStr_p->FullCountIn_p = Str_p->FullCountIn_p;    // net input of Str_p to input of DynaStr_p
+    DynaStr_p->TwoCos_p = CompSinTable_TwoCos_p;
+    // printf("%d\n",sizeof( CompSinTable_TwoCos_p));
+    // printf("%d\n",sizeof( CompSinTable_TwoCos_p[0]));
+    printf("%d\n",sizeof(int16_t));
+    /*initialize S0_p[],TwoCos_p[]*/
+    for (int16_t c = 0; c < DynaStr_p->Channel; c++) {
+        *(DynaStr_p->TwoCos_p + c) = (int16_t)(cos(c * Str_p->Omega) * (1 << 13) *
+                                               2);    // F3.13= (int16_t)(2^13*(double -2~2))
+        for (int16_t j = 0; j < 3; j++) {
             DynaStr_p->S0_p[c * 3 + j] =
-                (int16_t)((2 ^ 14) *
+                (int16_t)((1 << 14) *
                           sin(Str_p->Theta_p[c] +
-                              (j - 1) * Str_p->Omega));    // F2.14=(int16_t)(2^14*(double -2~2))
+                              (j - 1) * Str_p->Omega));    // F2.14=(int16_t)(2^14*(double -1~1))
         }
+    }
+    for (int16_t i = 0; i < 4; i++) {
+        printf("Str_p->TwoCos_p[i] =%i\n", DynaStr_p->TwoCos_p[i]);
+        printf("TwoCos_p[i] =%d\n", (int16_t)(cos(i * Str_p->Omega) * (1 << 13) * 2));
     }
 }
 
