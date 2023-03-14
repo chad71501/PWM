@@ -29,8 +29,8 @@
 #define MS3 PD2    // Microstep pin
 #define Enable PORTB &= ~(HIGH << Enable_pin)      // A4988 Enable
 #define DisEnable PORTB |= (HIGH << Enable_pin)    // A4988 DisEnable
-#define Rotate_CW PORTB |= (HIGH << Dir_pin)    // motor Forward
-#define Rotate_ACW PORTB &= ~(HIGH << Dir_pin)  // motor Reverse
+#define Rotate_CW PORTB |= (HIGH << Dir_pin)    // motor Forward/clockwise
+#define Rotate_ACW PORTB &= ~(HIGH << Dir_pin)  // motor Reverse/counterclockwise
 /*Microstep*/
 void Microstep(uint8_t Num);
 void pwm_A4988_init();

@@ -106,7 +106,7 @@ typedef union {
 
 // ANGLE Register Definition
 typedef union {
-    uint16_t raw;
+    volatile uint16_t raw;
     struct __attribute__ ((packed)) {
         uint16_t cordicang:14;
         uint16_t unused:2;
