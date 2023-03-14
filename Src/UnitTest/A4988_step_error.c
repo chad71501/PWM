@@ -22,20 +22,21 @@
 #include "Sintable.h"
 #include "pwm.h"
 #include "uartdevice.h"
-#define step_set \
-    2    // Select microsteps: 1 equals full step, 2 equals half step, and 4 equals quarter step..
+/*Select microsteps: 1 equals full step, 2 equals half step, and 4 equals quarter step..*/
+#define step_set 2 
+
 #define _step(step_set) step_set * 200    // the number of microsteps per revolution of the motor
 #define _ideal_value(step_set) (float)1.8 / step_set    //  ideal position of the motor step
 
 static float encoder_Angle = 0;
 static float prev_encoder_Angle = 0;
-uint16_t sin_count = 0;
-int flag_cli = 2;
 volatile uint16_t step_count = 0;
-extern uint16_t sin_sampling[360];
+int flag_cli = 2;
 char sample;
 float error[_step(step_set)];
 float actual_value[_step(step_set)];
+// extern uint16_t sin_sampling[360];
+// uint16_t sin_count = 0;
 
 int main() {
     sintable();
@@ -43,7 +44,6 @@ int main() {
     SPI_MasterInit();
     Rotate_CW;    // motor clockwise/forward
     // OCR2 = sin_sampling[0];
-    TCNT2 = 0;
     pwm_A4988_init();       // about 168Hz
     Microstep(step_set);    // Select microsteps: 1 equals full step, 2 equals half step, and 4
                             // equals quarter step..

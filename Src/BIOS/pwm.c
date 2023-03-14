@@ -39,7 +39,9 @@ void pwm_A4988_init() {
     TCCR2 |= (1 << WGM21) | (1 << WGM20) | (1 << COM21) |
              (1 << CS22);    // mode select fast pwm & Prescaler 64
     OCR2 = 255 / 2;
+    TCNT2 = 0;
     TIMSK |= (1 << OCIE2);
+
 }
 
 void pwm_phase_init() {
